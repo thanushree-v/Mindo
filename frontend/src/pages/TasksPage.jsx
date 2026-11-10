@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import * as tasksApi from '../api/tasks'
 import TaskList from '../components/tasks/TaskList'
 import TaskForm from '../components/tasks/TaskForm'
+import { HiPlus } from 'react-icons/hi2'
 
 const TABS = [
   { key: 'pending', label: 'Pending' },
@@ -177,7 +178,7 @@ export default function TasksPage() {
           className="fixed bottom-20 right-4 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 flex items-center justify-center text-2xl font-light transition-all active:scale-95 z-10"
           aria-label="Create new task"
         >
-          +
+          <HiPlus size={24} />
         </button>
       )}
     </div>

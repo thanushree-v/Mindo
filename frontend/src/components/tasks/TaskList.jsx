@@ -1,11 +1,12 @@
 import TaskCard from './TaskCard'
+import { HiOutlineClipboardDocumentCheck } from 'react-icons/hi2'
 
 export default function TaskList({ tasks, onComplete, onPostpone, onDelete, onEdit }) {
   if (!tasks || tasks.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-4xl mb-3">{'📝'}</p>
-        <p className="text-gray-500 font-medium">No tasks yet</p>
+        <HiOutlineClipboardDocumentCheck className="mx-auto text-gray-300" size={48} />
+        <p className="text-gray-500 font-medium mt-3">No tasks yet</p>
         <p className="text-gray-400 text-sm mt-1">
           Speak or type a thought to get started!
         </p>

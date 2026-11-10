@@ -1,5 +1,12 @@
 import { useState } from 'react'
 import { relativeDate } from '../../utils/dates'
+import {
+  HiOutlinePencilSquare,
+  HiOutlineTrash,
+  HiOutlineArrowRightCircle,
+  HiChevronUp,
+  HiChevronDown,
+} from 'react-icons/hi2'
 
 export default function IdeaCard({ idea, onDelete, onEdit, onConvert }) {
   const [expanded, setExpanded] = useState(false)
@@ -28,8 +35,8 @@ export default function IdeaCard({ idea, onDelete, onEdit, onConvert }) {
               </p>
             )}
           </div>
-          <span className="text-gray-300 text-sm shrink-0">
-            {expanded ? '▲' : '▼'}
+          <span className="text-gray-300 shrink-0">
+            {expanded ? <HiChevronUp size={16} /> : <HiChevronDown size={16} />}
           </span>
         </div>
       </button>
@@ -48,21 +55,21 @@ export default function IdeaCard({ idea, onDelete, onEdit, onConvert }) {
               className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-indigo-700 border border-indigo-300 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors"
               title="Convert to Task"
             >
-              <span>{'→'}</span> Convert to Task
+              <HiOutlineArrowRightCircle size={14} /> Convert to Task
             </button>
             <button
               onClick={() => onEdit(idea)}
               className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               title="Edit"
             >
-              <span>{'✏️'}</span> Edit
+              <HiOutlinePencilSquare size={14} /> Edit
             </button>
             <button
               onClick={() => onDelete(idea.id)}
               className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-700 bg-red-50 rounded-lg hover:bg-red-100 transition-colors ml-auto"
               title="Delete"
             >
-              <span>{'🗑'}</span> Delete
+              <HiOutlineTrash size={14} /> Delete
             </button>
           </div>
         </div>

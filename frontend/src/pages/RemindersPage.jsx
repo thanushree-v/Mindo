@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import * as remindersApi from '../api/reminders'
 import ReminderCard from '../components/reminders/ReminderCard'
 import ReminderForm from '../components/reminders/ReminderForm'
+import { HiOutlineBell, HiPlus } from 'react-icons/hi2'
 
 export default function RemindersPage() {
   const [reminders, setReminders] = useState([])
@@ -97,8 +98,8 @@ export default function RemindersPage() {
         </div>
       ) : reminders.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-4xl mb-3">{'⏰'}</p>
-          <p className="text-gray-500 font-medium">No reminders scheduled</p>
+          <HiOutlineBell className="mx-auto text-gray-300" size={48} />
+          <p className="text-gray-500 font-medium mt-3">No reminders scheduled</p>
           <p className="text-gray-400 text-sm mt-1">
             Create a reminder to stay on track!
           </p>
@@ -151,7 +152,7 @@ export default function RemindersPage() {
           className="fixed bottom-20 right-4 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 flex items-center justify-center text-2xl font-light transition-all active:scale-95 z-10"
           aria-label="Create new reminder"
         >
-          +
+          <HiPlus size={24} />
         </button>
       )}
     </div>

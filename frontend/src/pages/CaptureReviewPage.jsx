@@ -5,13 +5,16 @@ import { createTask } from '../api/tasks'
 import { createIdea } from '../api/ideas'
 import { createNote } from '../api/notes'
 import { createReminder } from '../api/reminders'
+import useTTS from '../hooks/useTTS'
 import TranscriptDisplay from '../components/capture/TranscriptDisplay'
 import ExtractionPreview from '../components/extraction/ExtractionPreview'
+import { HiCheck, HiChevronDown, HiChevronRight } from 'react-icons/hi2'
 
 export default function CaptureReviewPage() {
   const location = useLocation()
   const navigate = useNavigate()
 
+  const { speak } = useTTS()
   const { transcript: initialTranscript, captureId } = location.state || {}
 
   const [transcript, setTranscript] = useState(initialTranscript || '')
@@ -87,6 +90,13 @@ export default function CaptureReviewPage() {
 
     setConfirmResult(results)
     setConfirming(false)
+
+    if (results.success > 0) {
+      const msg = results.success === 1
+        ? 'Your item has been saved.'
+        : `${results.success} items have been saved.`
+      speak(msg)
+    }
   }
 
   function handleDiscard() {
@@ -97,7 +107,7 @@ export default function CaptureReviewPage() {
     return (
       <div className="px-4 pt-8 pb-8 max-w-lg mx-auto text-center">
         <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-3xl">{'✓'}</span>
+          <HiCheck className="text-green-600" size={32} />
         </div>
         <h2 className="text-xl font-bold text-gray-800 mb-2">Items Saved!</h2>
         <div className="space-y-1 text-sm text-gray-600 mb-6">
@@ -139,7 +149,7 @@ export default function CaptureReviewPage() {
           onClick={() => setShowTranscript(!showTranscript)}
           className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 font-medium"
         >
-          <span>{showTranscript ? '▼' : '▶'}</span>
+          {showTranscript ? <HiChevronDown size={16} /> : <HiChevronRight size={16} />}
           Original transcript
         </button>
         {showTranscript && (

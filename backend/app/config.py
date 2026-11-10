@@ -19,8 +19,15 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_DAYS: int = 7
     GNANI_API_KEY: str = ""
     GNANI_API_URL: str = ""
+    GNANI_TIMBRE_API_KEY: str = ""
+    GNANI_TIMBRE_API_URL: str = ""
     LLM_API_KEY: str = ""
     LLM_API_URL: str = ""
+    AWS_DEFAULT_REGION: str = ""
+    AWS_ACCESS_KEY_ID: str = ""
+    AWS_SECRET_ACCESS_KEY: str = ""
+    AWS_SESSION_TOKEN: str = ""
+    BEDROCK_MODEL_ID: str = "us.anthropic.claude-sonnet-4-20250514-v1:0"
     CORS_ORIGINS: str = "http://localhost:5173"
 
 

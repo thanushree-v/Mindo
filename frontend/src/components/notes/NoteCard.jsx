@@ -1,5 +1,11 @@
 import { useState } from 'react'
 import { relativeDate } from '../../utils/dates'
+import {
+  HiOutlinePencilSquare,
+  HiOutlineTrash,
+  HiChevronUp,
+  HiChevronDown,
+} from 'react-icons/hi2'
 
 export default function NoteCard({ note, onDelete, onEdit }) {
   const [expanded, setExpanded] = useState(false)
@@ -27,8 +33,8 @@ export default function NoteCard({ note, onDelete, onEdit }) {
             </div>
           </div>
           {isLong && (
-            <span className="text-gray-300 text-sm shrink-0">
-              {expanded ? '▲' : '▼'}
+            <span className="text-gray-300 shrink-0">
+              {expanded ? <HiChevronUp size={16} /> : <HiChevronDown size={16} />}
             </span>
           )}
         </div>
@@ -42,14 +48,14 @@ export default function NoteCard({ note, onDelete, onEdit }) {
               className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               title="Edit"
             >
-              <span>{'✏️'}</span> Edit
+              <HiOutlinePencilSquare size={14} /> Edit
             </button>
             <button
               onClick={() => onDelete(note.id)}
               className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-700 bg-red-50 rounded-lg hover:bg-red-100 transition-colors ml-auto"
               title="Delete"
             >
-              <span>{'🗑'}</span> Delete
+              <HiOutlineTrash size={14} /> Delete
             </button>
           </div>
         </div>

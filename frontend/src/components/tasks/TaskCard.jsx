@@ -1,5 +1,13 @@
 import { useState } from 'react'
 import { relativeDate } from '../../utils/dates'
+import {
+  HiOutlineCheck,
+  HiOutlineCalendar,
+  HiOutlinePencilSquare,
+  HiOutlineTrash,
+  HiChevronUp,
+  HiChevronDown,
+} from 'react-icons/hi2'
 
 const PRIORITY_STYLES = {
   low: 'bg-green-100 text-green-700',
@@ -75,8 +83,8 @@ export default function TaskCard({ task, onComplete, onPostpone, onDelete, onEdi
               )}
             </div>
           </div>
-          <span className="text-gray-300 text-sm shrink-0">
-            {expanded ? '▲' : '▼'}
+          <span className="text-gray-300 shrink-0">
+            {expanded ? <HiChevronUp size={16} /> : <HiChevronDown size={16} />}
           </span>
         </div>
       </button>
@@ -120,7 +128,7 @@ export default function TaskCard({ task, onComplete, onPostpone, onDelete, onEdi
                 className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-green-700 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
                 title="Complete"
               >
-                <span>{'✓'}</span> Complete
+                <HiOutlineCheck size={14} /> Complete
               </button>
             )}
             {!task.completed_at && (
@@ -129,7 +137,7 @@ export default function TaskCard({ task, onComplete, onPostpone, onDelete, onEdi
                 className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-indigo-700 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors"
                 title="Postpone"
               >
-                <span>{'📅'}</span> Postpone
+                <HiOutlineCalendar size={14} /> Postpone
               </button>
             )}
             <button
@@ -137,14 +145,14 @@ export default function TaskCard({ task, onComplete, onPostpone, onDelete, onEdi
               className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               title="Edit"
             >
-              <span>{'✏️'}</span> Edit
+              <HiOutlinePencilSquare size={14} /> Edit
             </button>
             <button
               onClick={() => onDelete(task.id)}
               className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-700 bg-red-50 rounded-lg hover:bg-red-100 transition-colors ml-auto"
               title="Delete"
             >
-              <span>{'🗑'}</span> Delete
+              <HiOutlineTrash size={14} /> Delete
             </button>
           </div>
         </div>

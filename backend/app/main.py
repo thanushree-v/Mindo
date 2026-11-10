@@ -15,6 +15,7 @@ from app.routers.ideas import router as ideas_router
 from app.routers.notes import router as notes_router
 from app.routers.reminders import router as reminders_router
 from app.routers.notifications import router as notifications_router
+from app.routers.tts import router as tts_router
 from app.scheduler.reminder_jobs import init_scheduler, reconcile_reminders
 
 
@@ -47,6 +48,7 @@ app.include_router(ideas_router)
 app.include_router(notes_router)
 app.include_router(reminders_router)
 app.include_router(notifications_router)
+app.include_router(tts_router)
 
 
 @app.get("/health")

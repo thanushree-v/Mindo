@@ -1,11 +1,23 @@
 import { NavLink } from 'react-router-dom'
+import {
+  HiHome,
+  HiOutlineHome,
+  HiClipboardDocumentCheck,
+  HiOutlineClipboardDocumentCheck,
+  HiLightBulb,
+  HiOutlineLightBulb,
+  HiDocumentText,
+  HiOutlineDocumentText,
+  HiBell,
+  HiOutlineBell,
+} from 'react-icons/hi2'
 
 const tabs = [
-  { to: '/', label: 'Home', icon: '🏠' },
-  { to: '/tasks', label: 'Tasks', icon: '✅' },
-  { to: '/ideas', label: 'Ideas', icon: '💡' },
-  { to: '/notes', label: 'Notes', icon: '📝' },
-  { to: '/reminders', label: 'Reminders', icon: '⏰' },
+  { to: '/', label: 'Home', Icon: HiOutlineHome, ActiveIcon: HiHome },
+  { to: '/tasks', label: 'Tasks', Icon: HiOutlineClipboardDocumentCheck, ActiveIcon: HiClipboardDocumentCheck },
+  { to: '/ideas', label: 'Ideas', Icon: HiOutlineLightBulb, ActiveIcon: HiLightBulb },
+  { to: '/notes', label: 'Notes', Icon: HiOutlineDocumentText, ActiveIcon: HiDocumentText },
+  { to: '/reminders', label: 'Reminders', Icon: HiOutlineBell, ActiveIcon: HiBell },
 ]
 
 export default function BottomNav() {
@@ -24,8 +36,15 @@ export default function BottomNav() {
             }`
           }
         >
-          <span className="text-xl mb-0.5">{tab.icon}</span>
-          <span>{tab.label}</span>
+          {({ isActive }) => {
+            const IconComponent = isActive ? tab.ActiveIcon : tab.Icon
+            return (
+              <>
+                <IconComponent size={22} className="mb-0.5" />
+                <span>{tab.label}</span>
+              </>
+            )
+          }}
         </NavLink>
       ))}
     </nav>

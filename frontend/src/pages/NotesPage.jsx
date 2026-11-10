@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import * as notesApi from '../api/notes'
 import NoteList from '../components/notes/NoteList'
 import NoteForm from '../components/notes/NoteForm'
+import { HiPlus } from 'react-icons/hi2'
 
 export default function NotesPage() {
   const [search, setSearch] = useState('')
@@ -132,7 +133,7 @@ export default function NotesPage() {
           className="fixed bottom-20 right-4 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 flex items-center justify-center text-2xl font-light transition-all active:scale-95 z-10"
           aria-label="Create new note"
         >
-          +
+          <HiPlus size={24} />
         </button>
       )}
     </div>
