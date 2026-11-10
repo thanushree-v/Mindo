@@ -1,0 +1,19 @@
+[Unit]
+Description=MINDDO API (FastAPI + Uvicorn)
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=minddo
+Group=minddo
+WorkingDirectory=/var/www/minddo/backend
+EnvironmentFile=/etc/minddo/.env
+ExecStart=/var/www/minddo/backend/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 2
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
