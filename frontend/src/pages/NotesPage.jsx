@@ -68,7 +68,7 @@ export default function NotesPage() {
   }
 
   return (
-    <div className="px-4 pt-4 pb-24 max-w-lg mx-auto">
+    <div className="pt-4 pb-24 md:pb-8">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold text-gray-800">Notes</h2>
         <button
@@ -130,7 +130,7 @@ export default function NotesPage() {
             setEditingNote(null)
             setShowForm(true)
           }}
-          className="fixed bottom-20 right-4 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 flex items-center justify-center text-2xl font-light transition-all active:scale-95 z-10"
+          className="fixed bottom-20 right-4 md:bottom-8 md:right-8 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 flex items-center justify-center text-2xl font-light transition-all active:scale-95 z-10"
           aria-label="Create new note"
         >
           <HiPlus size={24} />

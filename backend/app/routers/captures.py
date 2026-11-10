@@ -49,7 +49,7 @@ async def create_text_capture(
     return capture
 
 
-@router.get("/", response_model=list[CaptureResponse])
+@router.get("", response_model=list[CaptureResponse])
 async def list_captures(
     page: int = Query(1, ge=1),
     per_page: int = Query(20, ge=1, le=100),

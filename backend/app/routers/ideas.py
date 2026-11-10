@@ -20,7 +20,7 @@ from app.services import idea_service
 router = APIRouter(prefix="/api/v1/ideas", tags=["ideas"])
 
 
-@router.post("/", response_model=IdeaResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=IdeaResponse, status_code=status.HTTP_201_CREATED)
 async def create_idea(
     body: IdeaCreate,
     db: AsyncSession = Depends(get_db),
@@ -34,7 +34,7 @@ async def create_idea(
     return idea
 
 
-@router.get("/", response_model=IdeaListResponse)
+@router.get("", response_model=IdeaListResponse)
 async def list_ideas(
     search: str | None = None,
     page: int = Query(1, ge=1),

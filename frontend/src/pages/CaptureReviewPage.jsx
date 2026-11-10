@@ -105,7 +105,7 @@ export default function CaptureReviewPage() {
 
   if (confirmResult) {
     return (
-      <div className="px-4 pt-8 pb-8 max-w-lg mx-auto text-center">
+      <div className="pt-8 pb-8 text-center">
         <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <HiCheck className="text-green-600" size={32} />
         </div>
@@ -141,7 +141,7 @@ export default function CaptureReviewPage() {
   }
 
   return (
-    <div className="px-4 pt-4 pb-8 max-w-lg mx-auto">
+    <div className="pt-4 pb-8">
       <h2 className="text-lg font-bold text-gray-800 mb-4">Review Extraction</h2>
 
       <div className="mb-4">

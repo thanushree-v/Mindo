@@ -12,7 +12,7 @@ export default function IdeaCard({ idea, onDelete, onEdit, onConvert }) {
   const [expanded, setExpanded] = useState(false)
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 transition-all">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all">
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full text-left p-4"
@@ -49,7 +49,7 @@ export default function IdeaCard({ idea, onDelete, onEdit, onConvert }) {
             </p>
           )}
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <button
               onClick={() => onConvert(idea.id)}
               className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-indigo-700 border border-indigo-300 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors"
@@ -66,7 +66,7 @@ export default function IdeaCard({ idea, onDelete, onEdit, onConvert }) {
             </button>
             <button
               onClick={() => onDelete(idea.id)}
-              className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-700 bg-red-50 rounded-lg hover:bg-red-100 transition-colors ml-auto"
+              className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-700 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
               title="Delete"
             >
               <HiOutlineTrash size={14} /> Delete

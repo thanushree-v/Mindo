@@ -25,7 +25,7 @@ class PostponeRequest(BaseModel):
     new_due_at: datetime | None = None
 
 
-@router.post("/", response_model=TaskResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=TaskResponse, status_code=status.HTTP_201_CREATED)
 async def create_task(
     body: TaskCreate,
     db: AsyncSession = Depends(get_db),
@@ -39,7 +39,7 @@ async def create_task(
     return task
 
 
-@router.get("/", response_model=TaskListResponse)
+@router.get("", response_model=TaskListResponse)
 async def list_tasks(
     task_status: str | None = Query(None, alias="status"),
     category: str | None = None,

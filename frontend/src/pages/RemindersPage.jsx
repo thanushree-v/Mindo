@@ -59,7 +59,7 @@ export default function RemindersPage() {
   )
 
   return (
-    <div className="px-4 pt-4 pb-24 max-w-lg mx-auto">
+    <div className="pt-4 pb-24 md:pb-8">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold text-gray-800">Reminders</h2>
         <button
@@ -115,7 +115,7 @@ export default function RemindersPage() {
                 No upcoming reminders
               </p>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0 lg:grid-cols-3">
                 {upcoming.map((reminder) => (
                   <ReminderCard
                     key={reminder.id}
@@ -132,7 +132,7 @@ export default function RemindersPage() {
               <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-3">
                 Past
               </h3>
-              <div className="space-y-3 opacity-70">
+              <div className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0 lg:grid-cols-3 opacity-70">
                 {past.map((reminder) => (
                   <ReminderCard
                     key={reminder.id}
@@ -149,7 +149,7 @@ export default function RemindersPage() {
       {!showForm && (
         <button
           onClick={() => setShowForm(true)}
-          className="fixed bottom-20 right-4 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 flex items-center justify-center text-2xl font-light transition-all active:scale-95 z-10"
+          className="fixed bottom-20 right-4 md:bottom-8 md:right-8 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 flex items-center justify-center text-2xl font-light transition-all active:scale-95 z-10"
           aria-label="Create new reminder"
         >
           <HiPlus size={24} />

@@ -22,7 +22,7 @@ const tabs = [
 
 export default function BottomNav() {
   return (
-    <nav className="bg-white border-t border-gray-200 px-2 py-1 flex items-center justify-around">
+    <nav className="md:hidden bg-white border-t border-gray-200 px-2 py-1 flex items-center justify-around">
       {tabs.map((tab) => (
         <NavLink
           key={tab.to}

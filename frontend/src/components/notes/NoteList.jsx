@@ -15,7 +15,7 @@ export default function NoteList({ notes, onDelete, onEdit }) {
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0 lg:grid-cols-3">
       {notes.map((note) => (
         <NoteCard
           key={note.id}

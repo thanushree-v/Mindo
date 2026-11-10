@@ -35,7 +35,7 @@ export default function TaskCard({ task, onComplete, onPostpone, onDelete, onEdi
 
   return (
     <div
-      className={`bg-white rounded-xl shadow-sm border transition-all ${
+      className={`bg-white rounded-xl shadow-sm border overflow-hidden transition-all ${
         task.completed_at ? 'border-gray-100 opacity-60' : 'border-gray-100'
       }`}
     >
@@ -98,7 +98,7 @@ export default function TaskCard({ task, onComplete, onPostpone, onDelete, onEdi
           )}
 
           {showPostpone && (
-            <div className="mb-3 flex items-center gap-2">
+            <div className="mb-3 flex items-center gap-2 flex-wrap">
               <input
                 type="datetime-local"
                 value={postponeDate}
@@ -121,7 +121,7 @@ export default function TaskCard({ task, onComplete, onPostpone, onDelete, onEdi
             </div>
           )}
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {!task.completed_at && (
               <button
                 onClick={() => onComplete(task.id)}
@@ -149,7 +149,7 @@ export default function TaskCard({ task, onComplete, onPostpone, onDelete, onEdi
             </button>
             <button
               onClick={() => onDelete(task.id)}
-              className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-700 bg-red-50 rounded-lg hover:bg-red-100 transition-colors ml-auto"
+              className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-700 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
               title="Delete"
             >
               <HiOutlineTrash size={14} /> Delete

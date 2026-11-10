@@ -62,7 +62,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="px-4 pt-6 pb-8 max-w-lg mx-auto">
+    <div className="pt-6 pb-8">
       <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-gray-800">
           {getGreeting()}, {user?.name}!

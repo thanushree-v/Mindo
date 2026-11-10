@@ -12,7 +12,7 @@ export default function ReminderCard({ reminder, onCancel }) {
   const canCancel = reminder.status === 'pending' || reminder.status === 'scheduled'
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 transition-all">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 overflow-hidden transition-all">
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <h3 className="text-sm font-semibold text-gray-800">

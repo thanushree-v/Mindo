@@ -19,7 +19,7 @@ from app.services import note_service
 router = APIRouter(prefix="/api/v1/notes", tags=["notes"])
 
 
-@router.post("/", response_model=NoteResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=NoteResponse, status_code=status.HTTP_201_CREATED)
 async def create_note(
     body: NoteCreate,
     db: AsyncSession = Depends(get_db),
@@ -33,7 +33,7 @@ async def create_note(
     return note
 
 
-@router.get("/", response_model=NoteListResponse)
+@router.get("", response_model=NoteListResponse)
 async def list_notes(
     search: str | None = None,
     page: int = Query(1, ge=1),

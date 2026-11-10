@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     GNANI_API_URL: str = ""
     GNANI_TIMBRE_API_KEY: str = ""
     GNANI_TIMBRE_API_URL: str = ""
+    LLM_PROVIDER: str = "mock"  # "bedrock", "default", or "mock"
     LLM_API_KEY: str = ""
     LLM_API_URL: str = ""
     AWS_DEFAULT_REGION: str = ""

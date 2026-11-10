@@ -6,15 +6,41 @@ from fastapi import HTTPException, status
 from app.config import settings
 from app.providers.speech.base import SpeechProvider, TranscriptionResult
 
+LANGUAGE_MAP = {
+    "en": "en-IN",
+    "hi": "hi-IN",
+    "ta": "ta-IN",
+    "te": "te-IN",
+    "kn": "kn-IN",
+    "ml": "ml-IN",
+    "mr": "mr-IN",
+    "bn": "bn-IN",
+    "gu": "gu-IN",
+    "pa": "pa-IN",
+    "auto": "indic-auto",
+}
+
+
+def _detect_content_type(audio_bytes: bytes) -> tuple[str, str]:
+    if audio_bytes[:4] == b"RIFF":
+        return "audio/wav", "recording.wav"
+    if audio_bytes[:3] == b"ID3" or audio_bytes[:2] == b"\xff\xfb":
+        return "audio/mpeg", "recording.mp3"
+    if audio_bytes[:4] == b"OggS":
+        return "audio/ogg", "recording.ogg"
+    if audio_bytes[:4] == b"fLaC":
+        return "audio/flac", "recording.flac"
+    return "audio/webm", "recording.webm"
+
 
 class GnaniPrismaProvider(SpeechProvider):
-    """Speech-to-text provider using the Gnani Prisma API."""
+    """Speech-to-text using Gnani Prisma on the Vachana platform."""
 
     def __init__(
         self,
         api_url: str | None = None,
         api_key: str | None = None,
-        timeout: float = 30.0,
+        timeout: float = 60.0,
     ) -> None:
         self.api_url = api_url or settings.GNANI_API_URL
         self.api_key = api_key or settings.GNANI_API_KEY
@@ -26,26 +52,22 @@ class GnaniPrismaProvider(SpeechProvider):
         if not self.api_url or not self.api_key:
             raise HTTPException(
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                detail="Gnani speech provider is not configured",
+                detail="Gnani Prisma provider is not configured",
             )
 
-        headers = {
-            "apikey": self.api_key,
-            "Authorization": f"Bearer {self.api_key}",
-        }
+        language_code = LANGUAGE_MAP.get(language, language)
+        content_type, filename = _detect_content_type(audio_bytes)
 
-        # Determine content type from audio bytes (default to webm)
-        content_type = "audio/webm"
-        if audio_bytes[:4] == b"RIFF":
-            content_type = "audio/wav"
-        elif audio_bytes[:3] == b"ID3" or audio_bytes[:2] == b"\xff\xfb":
-            content_type = "audio/mpeg"
+        headers = {
+            "X-API-Key-ID": self.api_key,
+        }
 
         files = {
-            "file": ("audio.webm", audio_bytes, content_type),
+            "audio_file": (filename, audio_bytes, content_type),
         }
         data = {
-            "language": language,
+            "language_code": language_code,
+            "model": "prisma-v3.0",
         }
 
         try:
@@ -58,52 +80,49 @@ class GnaniPrismaProvider(SpeechProvider):
                 )
 
             if response.status_code != 200:
+                error_detail = response.text[:300]
+                try:
+                    error_json = response.json()
+                    error_detail = error_json.get("message", error_detail)
+                except Exception:
+                    pass
                 raise HTTPException(
                     status_code=status.HTTP_502_BAD_GATEWAY,
-                    detail=f"Speech provider returned status {response.status_code}: {response.text[:200]}",
+                    detail=f"Prisma STT error ({response.status_code}): {error_detail}",
                 )
 
             result = response.json()
 
-            # Try common response field names
-            transcript = (
-                result.get("transcript")
-                or result.get("text")
-                or result.get("result", {}).get("transcript", "")
-                or result.get("data", {}).get("transcript", "")
-            )
-
+            transcript = result.get("transcript", "")
             if not transcript:
                 raise HTTPException(
                     status_code=status.HTTP_502_BAD_GATEWAY,
-                    detail="Speech provider returned empty transcript",
+                    detail="Prisma returned empty transcript",
                 )
 
-            confidence = result.get("confidence") or result.get(
-                "result", {}
-            ).get("confidence")
+            detected_lang = result.get("detected_language_code", language_code)
 
             return TranscriptionResult(
                 transcript=transcript,
-                language=language,
-                confidence=float(confidence) if confidence is not None else None,
-                provider="gnani",
+                language=detected_lang,
+                confidence=None,
+                provider="gnani_prisma",
             )
 
         except httpx.TimeoutException:
             raise HTTPException(
                 status_code=status.HTTP_504_GATEWAY_TIMEOUT,
-                detail="Speech provider request timed out",
+                detail="Prisma STT request timed out",
             )
         except httpx.RequestError as exc:
             raise HTTPException(
                 status_code=status.HTTP_502_BAD_GATEWAY,
-                detail=f"Speech provider connection error: {exc}",
+                detail=f"Prisma STT connection error: {exc}",
             )
         except HTTPException:
             raise
         except Exception as exc:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Unexpected error during transcription: {exc}",
+                detail=f"Unexpected Prisma STT error: {exc}",
             )

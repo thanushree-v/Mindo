@@ -1,9 +1,13 @@
 import { apiPost, apiGet } from './client'
+import { convertBlobToWav } from '../utils/audioConverter'
 
 export const uploadVoice = async (audioBlob) => {
   const token = localStorage.getItem('minddo_token')
+
+  const wavBlob = await convertBlobToWav(audioBlob)
+
   const formData = new FormData()
-  formData.append('file', audioBlob, 'recording.webm')
+  formData.append('file', wavBlob, 'recording.wav')
 
   const response = await fetch('/api/v1/captures/voice', {
     method: 'POST',

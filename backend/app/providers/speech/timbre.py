@@ -6,15 +6,29 @@ from fastapi import HTTPException, status
 from app.config import settings
 from app.providers.speech.tts_base import SynthesisResult, TTSProvider
 
+LANGUAGE_MAP = {
+    "en": "en-IN",
+    "hi": "hi-IN",
+    "ta": "ta-IN",
+    "te": "te-IN",
+    "kn": "kn-IN",
+    "ml": "ml-IN",
+    "mr": "mr-IN",
+    "bn": "bn-IN",
+    "gu": "gu-IN",
+    "pa": "pa-IN",
+    "auto": "auto",
+}
+
 
 class GnaniTimbreProvider(TTSProvider):
-    """Text-to-speech provider using Gnani Timbre API."""
+    """Text-to-speech using Gnani Timbre on the Vachana platform."""
 
     def __init__(
         self,
         api_url: str | None = None,
         api_key: str | None = None,
-        timeout: float = 15.0,
+        timeout: float = 30.0,
     ) -> None:
         self.api_url = api_url or settings.GNANI_TIMBRE_API_URL
         self.api_key = api_key or settings.GNANI_TIMBRE_API_KEY
@@ -27,15 +41,26 @@ class GnaniTimbreProvider(TTSProvider):
                 detail="Gnani Timbre TTS provider is not configured",
             )
 
+        language_code = LANGUAGE_MAP.get(language, language)
+
         headers = {
-            "apikey": self.api_key,
-            "Authorization": f"Bearer {self.api_key}",
+            "X-API-Key-ID": self.api_key,
             "Content-Type": "application/json",
         }
 
         payload = {
             "text": text,
-            "language": language,
+            "model": "timbre-v2.5",
+            "voice": "Kaveri",
+            "language": language_code,
+            "speed": 1.0,
+            "audio_config": {
+                "sample_rate": 24000,
+                "num_channels": 1,
+                "sample_width": 2,
+                "encoding": "linear_pcm",
+                "container": "wav",
+            },
         }
 
         try:
@@ -47,33 +72,18 @@ class GnaniTimbreProvider(TTSProvider):
                 )
 
             if response.status_code != 200:
+                error_detail = response.text[:300]
+                try:
+                    error_json = response.json()
+                    error_detail = error_json.get("message", error_detail)
+                except Exception:
+                    pass
                 raise HTTPException(
                     status_code=status.HTTP_502_BAD_GATEWAY,
-                    detail=f"TTS provider returned status {response.status_code}: {response.text[:200]}",
+                    detail=f"Timbre TTS error ({response.status_code}): {error_detail}",
                 )
 
             content_type = response.headers.get("content-type", "audio/wav")
-
-            if "json" in content_type:
-                result = response.json()
-                import base64
-
-                audio_b64 = (
-                    result.get("audio")
-                    or result.get("data", {}).get("audio", "")
-                    or result.get("audioContent", "")
-                )
-                if audio_b64:
-                    audio_bytes = base64.b64decode(audio_b64)
-                    return SynthesisResult(
-                        audio_bytes=audio_bytes,
-                        content_type="audio/wav",
-                        provider="gnani_timbre",
-                    )
-                raise HTTPException(
-                    status_code=status.HTTP_502_BAD_GATEWAY,
-                    detail="TTS provider returned empty audio",
-                )
 
             return SynthesisResult(
                 audio_bytes=response.content,
@@ -84,17 +94,17 @@ class GnaniTimbreProvider(TTSProvider):
         except httpx.TimeoutException:
             raise HTTPException(
                 status_code=status.HTTP_504_GATEWAY_TIMEOUT,
-                detail="TTS provider request timed out",
+                detail="Timbre TTS request timed out",
             )
         except httpx.RequestError as exc:
             raise HTTPException(
                 status_code=status.HTTP_502_BAD_GATEWAY,
-                detail=f"TTS provider connection error: {exc}",
+                detail=f"Timbre TTS connection error: {exc}",
             )
         except HTTPException:
             raise
         except Exception as exc:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Unexpected TTS error: {exc}",
+                detail=f"Unexpected Timbre TTS error: {exc}",
             )

@@ -19,13 +19,15 @@ def get_speech_provider() -> SpeechProvider:
 
 
 def get_llm_provider() -> LLMProvider:
-    """Return the appropriate LLM provider based on configuration."""
-    if settings.AWS_ACCESS_KEY_ID:
+    """Return the appropriate LLM provider based on LLM_PROVIDER setting."""
+    provider = settings.LLM_PROVIDER.lower()
+
+    if provider == "bedrock":
         from app.providers.llm.bedrock import BedrockLLMProvider
 
         return BedrockLLMProvider()
 
-    if settings.LLM_API_KEY:
+    if provider == "default":
         from app.providers.llm.default import DefaultLLMProvider
 
         return DefaultLLMProvider()

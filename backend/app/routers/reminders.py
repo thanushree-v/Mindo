@@ -20,7 +20,7 @@ from app.scheduler.reminder_jobs import schedule_reminder_job, cancel_reminder_j
 router = APIRouter(prefix="/api/v1/reminders", tags=["reminders"])
 
 
-@router.post("/", response_model=ReminderResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=ReminderResponse, status_code=status.HTTP_201_CREATED)
 async def create_reminder(
     body: ReminderCreate,
     db: AsyncSession = Depends(get_db),
@@ -35,7 +35,7 @@ async def create_reminder(
     return reminder
 
 
-@router.get("/", response_model=ReminderListResponse)
+@router.get("", response_model=ReminderListResponse)
 async def list_reminders(
     reminder_status: str | None = Query(None, alias="status"),
     page: int = Query(1, ge=1),

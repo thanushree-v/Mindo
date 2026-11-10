@@ -26,9 +26,16 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 md:grid md:grid-cols-2">
+      <div className="hidden md:flex flex-col items-center justify-center bg-indigo-600 h-full px-12">
+        <h1 className="text-4xl font-bold text-white tracking-tight mb-4">MINDDO</h1>
+        <p className="text-indigo-200 text-lg text-center max-w-sm">
+          Your voice-first organizer. Capture thoughts, tasks, and ideas effortlessly.
+        </p>
+      </div>
+      <div className="flex items-center justify-center w-full px-4 py-12">
       <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 md:hidden">
           <h1 className="text-3xl font-bold text-indigo-600 tracking-tight">MINDDO</h1>
           <p className="text-gray-500 mt-1">Your voice-first organizer</p>
         </div>
@@ -89,6 +96,7 @@ export default function LoginPage() {
             </Link>
           </p>
         </div>
+      </div>
       </div>
     </div>
   )
